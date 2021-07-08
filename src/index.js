@@ -2,7 +2,7 @@ import React, { forwardRef, useRef, useState, useEffect, useImperativeHandle } f
 import { StyleSheet, StatusBar, Image, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { useBackHandler, useAppState, useDimensions } from '@react-native-community/hooks';
-import { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
+
 
 import TXViewPlayer from './TXViewPlayer';
 import ControlerView from './components/ControlerView';
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 const Player = forwardRef(
   (
     {
+      garden,
       title,
       source,
       poster,
@@ -134,13 +135,15 @@ const Player = forwardRef(
     const handleFullScreenIn = () => {
       setIsFull(true);
       onFullScreen(true);
-      hideNavigationBar();
+      // hideNavigationBar();
+      garden.updateOptions({ statusBarHidden: true })
     };
 
     const handleFullScreenOut = () => {
       onFullScreen(false);
       setIsFull(false);
-      showNavigationBar();
+      garden.updateOptions({ statusBarHidden: false })
+      // showNavigationBar();
     };
 
     const handleChangeConfig = (config) => {
@@ -278,6 +281,7 @@ Player.propTypes = {
   onProgress: PropTypes.func, // 进度回调
   onPrepare: PropTypes.func, // 播放准备回调
   isLandscape: PropTypes.bool, // 全屏是否横屏
+  // garden:
 };
 
 Player.defaultProps = {
